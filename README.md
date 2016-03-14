@@ -9,11 +9,14 @@ projects](https://github.com/shelljs). I also use this to help review
 [cash](https://github.com/dthree/cash) and [my Bash-to-ShellJS
 translator](https://github.com/nfischer/BashToShellJS).
 
-Feel free to try this out for your project! If you like it, let me know. If you
-have any improvements, please submit a github issue or a pull request (which
-I'll try reviewing via this tool!). I'm more than happy to branch this off into
-a more general project, I've just started out making it a very specific tool to
-help make my life a bit easier.
+Feel free to try this out for your Github projects! If you like it, drop me a line.
+
+If you find any bugs, please see [the wiki
+page](https://github.com/nfischer/github-review/wiki) for a guide on submitting
+bug reports (I'd love to get them so I know what I can fix). If you have any
+improvements, please open a pull request (which I'll try reviewing via this
+tool!) or give me a feature suggestion via Github issue. I'm more than happy to
+branch this off into a more general and powerful project.
 
 ## Installation
 
