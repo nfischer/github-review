@@ -15,6 +15,45 @@ I'll try reviewing via this tool!). I'm more than happy to branch this off into
 a more general project, I've just started out making it a very specific tool to
 help make my life a bit easier.
 
+## Installation
+
+Clone it:
+
+```Bash
+$ git clone https://github.com/nfischer/github-review.git
+```
+
+Install it:
+
+```Bash
+$ cd github-review
+$ npm install
+```
+
+Link it:
+
+```Bash
+# make a symlink to somewhere in your PATH, like ~/bin/
+$ ln /path/to/github-review/review.js ~/bin/review.js
+```
+
+## Usage
+
+ 1. Visit your favorite Github node project. Pick an *open* pull request
+ 2. Copy out the pull request's URL (anything that has
+    `user/repo/pull/<num>/...`)
+ 3. Paste it on the commandline:
+
+ ```Bash
+ $ review.js https://github.com/shelljs/shx/pull/14
+ ```
+
+ 4. Press enter, watch the magic happen, and `cd` into the new `PR_14/`
+    directory
+ 5. Not easy enough? Use something like `tmux` to copy the outputted `cd`
+    command (scroll to the line and press `shift-V` `y`) and paste that to your
+    terminal with `ctrl-shift-V` to get there automagically :sunglasses:
+
 ## Compatibility
 
 This is written mainly in ShellJS, so this is supposed to be compatible with
