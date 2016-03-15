@@ -23,7 +23,7 @@ if (args.length < 1) {
 ///////////////
 
 // Clean up the url
-// https://github.com/shelljs/benchmarks/pull/6
+// Of the form: https://github.com/shelljs/benchmarks/pull/6
 var urlMatch = args[0].match(/^https:\/\/github.com\/(.*)\/(.*)\/pull\/(\d+)/);
 if (!urlMatch) {
   console.error('URL format is incorrect');
@@ -34,21 +34,11 @@ var prUrl = urlMatch[0];
 var ownerName = urlMatch[1];
 var repoName = urlMatch[2];
 var prNumber = 'PR_' + urlMatch[3];
-// prUrl = prUrl.replace(/\/commits.*$/, '');
-// prUrl = prUrl.replace(/\/files.*$/, '');
-// prUrl = prUrl.replace(/#discussion.*$/, '');
-// prUrl = prUrl.replace(/#issuecomment.*$/, '');
-
-// if (prUrl.search(/pull\/[0-9]+$/) === -1) {
-//   console.error('URL format is incorrect');
-//   exit(1);
-// }
 
 // Pull the web page, parse it, and determine the correct URLs
 echo('Pulling your URL...');
 echo(prUrl);
 var html = exec('curl ' + prUrl).output;
-// echo(html).to('github.html');
 echo('URL successfully fetched');
 
 // For parsing with xpath
@@ -85,7 +75,6 @@ if (nodes.length === 4) {
   remoteName = ownerName;
   branch_name = nodes[1].firstChild.data.trim();
 }
-// remoteName += '/' + repoName; // for the repository name
 
 // Setup directories
 var name = prNumber;
