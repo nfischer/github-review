@@ -99,6 +99,9 @@ cd(ls()[0]); // There's only one file, and it's our folder
 if (upstream) {
   echo('Adding upstream');
   exec('git remote add upstream ' + upstream);
+  exec('git fetch upstream');
+} else {
+  exec('git fetch origin master:master');
 }
 
 config.silent = false;
