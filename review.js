@@ -18,6 +18,11 @@ if (args.length < 1) {
   exit(1);
 }
 
+process.on('exit', (code) => {
+  if (code)
+    echo('ERROR: ' + error());
+});
+
 ///////////////
 // Setup
 ///////////////
@@ -83,7 +88,6 @@ mkdir(name);
 cd(name);
 name = 'node_modules/';
 mkdir(name);
-cd(name);
 
 // Clone the person's repo
 echo('Cloning the repository...');
@@ -94,8 +98,12 @@ var cloneCmd = 'git clone' +
 echo(cloneCmd);
 exec(cloneCmd);
 
+ls().forEach(function (dir) {
+  if (dir === 'node_modules')
+    return; // don't do anything
+  cd(dir);
+});
 
-cd(ls()[0]); // There's only one file, and it's our folder
 if (upstream) {
   echo('Adding upstream');
   exec('git remote add upstream ' + upstream);
@@ -108,19 +116,25 @@ config.silent = false;
 echo('Installing dependencies...');
 exec('npm install'); // install dependencies
 
+cd('..');
+mv(repoName, 'node_modules/');
+cd('node_modules/' + repoName);
+
+if (repoName.toLowerCase() === 'shx') {
+  exec('npm run build');
+}
+
+// installs bin scripts
+exec('npm install');
+
 config.fatal = false;
 
-///////////////
-// End of setup
-///////////////
-
 // **Specific to ShellJS**
-
 if (repoName.toLowerCase() === 'shelljs') {
   // Run interesting tests
-  // var bugsToFix = ['fake'];
   var bugsToFix = [];
 
+  exec('node ./scripts/generate-docs.js');
   if (exec('git diff --quiet README.md').code !== 0) {
     bugsToFix.append('docs');
     echo('Please generate docs');
@@ -144,5 +158,6 @@ if (repoName.toLowerCase() === 'shelljs') {
     echo('This PR passes initial tests!');
   }
 }
+
 echo('cd ' + topDir + '/    or');
 echo('cd ' + topDir + '/node_modules/' + repoName + '/');
