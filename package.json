@@ -17,7 +17,9 @@
     "github",
     "review",
     "pull-request",
-    "tool"
+    "tool",
+    "shelljs",
+    "shx"
   ],
   "author": "Nate Fischer",
   "license": "MIT",
