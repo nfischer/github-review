@@ -108,7 +108,7 @@ if (upstream) {
   echo('Adding upstream');
   exec('git remote add upstream ' + upstream);
   exec('git fetch upstream');
-} else {
+} else if (exec('git rev-parse --abbrev-ref HEAD').stdout.trim() !== 'master') {
   exec('git fetch origin master:master');
 }
 
