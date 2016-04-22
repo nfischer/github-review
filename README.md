@@ -22,12 +22,12 @@ branch this off into a more general and powerful project.
 ## Installation
 
 ```bash
-$ npm install -g nfischer/github-review
+$ npm install -g github-review
 ```
 
 ## Usage
 
- 1. Visit your favorite Github node project. Pick an *open* pull request
+ 1. Visit your favorite Github NodeJS project and pick an *open* pull request
  2. Copy out the pull request's URL (anything that has
     `user/repo/pull/<num>/...`)
  3. Paste it on the commandline:
@@ -41,6 +41,8 @@ $ npm install -g nfischer/github-review
 
  4. Press enter, watch the magic happen, and `cd` into the new `PR_14/`
     directory
+
+### Testing the master branch
 
 Also, you can also paste in the URL of the repo itself to clone & test the
 master branch:

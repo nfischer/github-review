@@ -1,6 +1,6 @@
 {
   "name": "github-review",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A simple tool to help me pull down and review Github PRs",
   "main": "review.js",
   "scripts": {
