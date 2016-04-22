@@ -2,14 +2,15 @@
 
 A simple tool to help me pull down and review Github PRs.
 
-This is geared toward reviewing node projects since that's what I'm reviewing
+This is geared toward reviewing NodeJS projects since that's what I'm reviewing
 these days. This is specifically geared toward reviewing PRs from
 [ShellJS](https://github.com/shelljs/shelljs) and [its various off-shoot
 projects](https://github.com/shelljs). I also use this to help review
 [cash](https://github.com/dthree/cash) and [my Bash-to-ShellJS
 translator](https://github.com/nfischer/BashToShellJS).
 
-Feel free to try this out for your Github projects! If you like it, drop me a line.
+Feel free to try this out for your Github projects! If you like it, drop me a
+line.
 
 If you find any bugs, please see [the wiki
 page](https://github.com/nfischer/github-review/wiki) for a guide on submitting
@@ -20,24 +21,8 @@ branch this off into a more general and powerful project.
 
 ## Installation
 
-Clone it:
-
-```Bash
-$ git clone https://github.com/nfischer/github-review.git
-```
-
-Install it:
-
-```Bash
-$ cd github-review
-$ npm install
-```
-
-Link it:
-
-```Bash
-# make a symlink to somewhere in your PATH, like ~/bin/
-$ ln /path/to/github-review/review.js ~/bin/review.js
+```bash
+$ npm install -g nfischer/github-review
 ```
 
 ## Usage
@@ -48,16 +33,24 @@ $ ln /path/to/github-review/review.js ~/bin/review.js
  3. Paste it on the commandline:
 
  ```Bash
+ # Save yourself some typing, paste in whatever URL is in your browser
  $ review.js https://github.com/shelljs/shx/pull/14
+ $ review.js https://github.com/shelljs/shx/pull/14/files # this works too
+ $ review.js https://github.com/shelljs/shx/pull/14#discussion_r55946766 # even this
  ```
 
  4. Press enter, watch the magic happen, and `cd` into the new `PR_14/`
     directory
- 5. Not easy enough? Use something like `tmux` to copy the outputted `cd`
-    command (scroll to the line and press `shift-V` `y`) and paste that to your
-    terminal with `ctrl-shift-V` to get there automagically :sunglasses:
 
-## Compatibility
+Also, you can also paste in the URL of the repo itself to clone & test the
+master branch:
+
+```Bash
+# Clone & test the master branch
+$ review.js https://github.com/shelljs/shx
+```
+
+## System Compatibility
 
 This is written mainly in ShellJS, so this is supposed to be compatible with
 Linux, Mac OS X, and Windows. Note: you must have `curl` installed for this
