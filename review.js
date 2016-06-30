@@ -1,26 +1,23 @@
 #!/usr/bin/env node
-
 'use strict';
 
-require('shelljs/global');
+var shell = require('shelljs');
 var xpath = require('xpath'),
     dom = require('xmldom').DOMParser;
 
-var GITHUB_HTML = 'github.html';
-
-config.fatal = true;
-config.silent = true;
+shell.config.fatal = true;
+shell.config.silent = true;
 
 var args = process.argv.slice(2);
 
 if (args.length < 1) {
-  echo('Must specify a URL');
-  exit(1);
+  shell.echo('Must specify a URL');
+  shell.exit(1);
 }
 
-process.on('exit', (code) => {
+process.on('exit', function (code) {
   if (code)
-    echo('ERROR: ' + error());
+    shell.echo('ERROR: ' + shell.error());
 });
 
 ///////////////
@@ -39,10 +36,10 @@ if (urlMatch) {
   var prNumber = 'PR_' + urlMatch[3];
 
   // Pull the web page, parse it, and determine the correct URLs
-  echo('Pulling your URL...');
-  echo(prUrl);
-  var html = exec('curl ' + prUrl).output;
-  echo('URL successfully fetched');
+  shell.echo('Pulling your URL...');
+  shell.echo(prUrl);
+  var html = shell.exec('curl ' + prUrl).output;
+  shell.echo('URL successfully fetched');
 
   // For parsing with xpath
   var parserArgs = {
@@ -51,7 +48,7 @@ if (urlMatch) {
   var doc = new dom(parserArgs).parseFromString(html);
   var nodes = xpath.select('//head/title', doc);
   var page_title = nodes[0].firstChild.data.trim();
-  echo(page_title);
+  shell.echo(page_title);
 
   var re = /[\u0000-\u007F]*/g;
   var matches = page_title.match(re);
@@ -76,88 +73,88 @@ if (urlMatch) {
   }
 } else if (!(urlMatch = args[0].match(/^https:\/\/github.com\/(.+)\/([^\/]+)/))) {
   console.error('URL format is incorrect');
-  exit(1);
+  shell.exit(1);
 }
 // Setup directories
 remoteName = remoteName || urlMatch[1];
 repoName = repoName || urlMatch[2];
 var topDir = prNumber || 'review_' + repoName;
 var name = topDir;
-rm('-Rf', name);
-mkdir(name);
-cd(name);
+shell.rm('-Rf', name);
+shell.mkdir(name);
+shell.cd(name);
 name = 'node_modules/';
-mkdir(name);
+shell.mkdir(name);
 
 // Clone the person's repo
-echo('Cloning the repository...');
+shell.echo('Cloning the repository...');
 var cloneCmd = 'git clone' +
     (branch_name ? ' -b ' + branch_name : '') +
     ' https://github.com/' +
     remoteName + '/' + repoName + '.git';
-echo(cloneCmd);
-exec(cloneCmd);
+shell.echo(cloneCmd);
+shell.exec(cloneCmd);
 
-ls().forEach(function (dir) {
+shell.ls().forEach(function (dir) {
   if (dir === 'node_modules')
     return; // don't do anything
-  cd(dir);
+  shell.cd(dir);
 });
 
 if (upstream) {
-  echo('Adding upstream');
-  exec('git remote add upstream ' + upstream);
-  exec('git fetch upstream');
-} else if (exec('git rev-parse --abbrev-ref HEAD').stdout.trim() !== 'master') {
-  exec('git fetch origin master:master');
+  shell.echo('Adding upstream');
+  shell.exec('git remote add upstream ' + upstream);
+  shell.exec('git fetch upstream');
+} else if (shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim() !== 'master') {
+  shell.exec('git fetch origin master:master');
 }
 
-config.silent = false;
-echo('Installing dependencies...');
-exec('npm install'); // install dependencies
+shell.config.silent = false;
+shell.echo('Installing dependencies...');
+shell.exec('npm install'); // install dependencies
 
-cd('..');
-mv(repoName, 'node_modules/');
-cd('node_modules/' + repoName);
+shell.cd('..');
+shell.mv(repoName, 'node_modules/');
+shell.cd('node_modules/' + repoName);
 
 if (repoName.toLowerCase() === 'shx') {
-  exec('npm run build');
+  shell.exec('npm run build');
 }
 
 // installs bin scripts
-exec('npm install');
+shell.exec('npm install');
 
-config.fatal = false;
+shell.config.fatal = false;
 
 // **Specific to ShellJS**
 if (repoName.toLowerCase() === 'shelljs') {
   // Run interesting tests
   var bugsToFix = [];
 
-  exec('node ./scripts/generate-docs.js');
-  if (exec('git diff --quiet README.md').code !== 0) {
+  shell.exec('node ./scripts/generate-docs.js');
+  if (shell.exec('git diff --quiet README.md').code !== 0) {
     bugsToFix.append('docs');
-    echo('Please generate docs');
+    shell.echo('Please generate docs');
   }
 
-  echo('Running tests');
-  if (exec('npm test').code !== 0) {
+  shell.echo('Running tests');
+  if (shell.exec('npm test').code !== 0) {
     bugsToFix.append('tests');
   }
 
   if (bugsToFix.length > 0) {
-    echo('===================');
-    echo('Must fix:');
-    echo(bugsToFix);
-    exit(1);
+    shell.echo('===================');
+    shell.echo('Must fix:');
+    shell.echo(bugsToFix);
+    shell.exit(1);
   } else {
     // Output useful info
-    echo('Testing out Pull Request #' + prNumber);
-    echo('> ' + description);
-    echo();
-    echo('This PR passes initial tests!');
+    shell.echo('Testing out Pull Request #' + prNumber);
+    shell.echo('> ' + description);
+    shell.echo();
+    shell.echo('This PR passes initial tests!');
   }
 }
 
-echo('cd ' + topDir + '/    or');
-echo('cd ' + topDir + '/node_modules/' + repoName + '/');
+shell.echo('cd ' + topDir + '/    or');
+shell.echo('cd ' + topDir + '/node_modules/' + repoName + '/');

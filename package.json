@@ -4,7 +4,7 @@
   "description": "A simple tool to help me pull down and review Github PRs",
   "main": "review.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jshint ."
   },
   "repository": {
     "type": "git",
@@ -31,5 +31,8 @@
     "shelljs": "^0.6.0",
     "xmldom": "^0.1.22",
     "xpath": "0.0.22"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.2"
   }
 }
